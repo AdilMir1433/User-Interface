@@ -1,0 +1,39 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <title>Login</title>
+<!--    <link href="/css/login-page.css" th:href="@{/css/login-page.css}" rel="stylesheet" >-->
+    <link th:href="@{/ui/css/login-page.css}" rel="stylesheet" type="text/css" >
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <img class="logo" th:src="@{/ui/images/DevXam.png}" alt=""/>
+    <!--<form action="/auth/login" method="post">-->
+    <h1 class="heading">DevXam</h1>
+
+    <div class="main">
+
+        <input type="checkbox" id="chk" aria-hidden="true">
+
+        <div class="signup">
+            <form th:action="@{/ui/create-user}" method="post">
+                <label for="chk" aria-hidden="true">Sign up</label>
+                <input type="text" name="name" placeholder="name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button>Sign up</button>
+            </form>
+        </div>
+
+        <div class="login">
+            <form th:action="@{/ui/redirecting}" method="post">
+                <label for="chk" aria-hidden="true">Login</label>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <button>Login</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

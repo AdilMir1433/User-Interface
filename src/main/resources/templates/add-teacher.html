@@ -1,0 +1,34 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Teacher</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link href='https://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" th:href="@{/users/css/add-student.css}">
+
+</head>
+<body>
+
+<form th:action="@{/users/home/save-teacher}" method="post">
+
+    <h1>Add Teacher</h1>
+
+    <fieldset>
+        <legend><span class="number">1</span>Basic Info</legend>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+
+    </fieldset>
+    <button type="submit">Add</button>
+</form>
+
+</body>
+</html>

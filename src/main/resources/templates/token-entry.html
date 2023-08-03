@@ -1,0 +1,55 @@
+<!-- token-entry.html -->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authorization</title>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&amp;display=swap'>
+    <link  th:href="@{/ui/css/token-entry.css}" rel="stylesheet" >
+
+
+</head>
+<body>
+<script th:src="@{/ui/js/token-entry.js}"></script>
+<form id="formSubmit" th:action="@{/ui/verification}" method="post">
+<!--    <label for="token">Token:</label>-->
+<!--    <input type="text"  id="token" name="token" required>-->
+<!--    <button type="submit">Submit</button>-->
+
+    <div class="card">
+        <div class="card-img">
+            <img  th:src="@{/ui/images/DevXam.png}" alt=""/>
+        </div>
+        <div class="desc">
+            <h6 class="primary-text">Enter Token</h6>
+            <h6 class="secondary-text">Check your Email</h6>
+        </div>
+        <input type="text" class="primary-text" id="token" name="token" placeholder="Token" required>
+        <div class="details">
+            <div class="rating">
+<!--                <h6 class="primary-text"> 86% </h6>-->
+                <div onclick="goToLogin()" class="arrow">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <h6 class="secondary-text"> Login </h6>
+            </div>
+            <div class="activity">
+<!--                <h6 class="primary-text"> 92% </h6>-->
+                <div class="arrow1" onclick="submitForm()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <h6 class="secondary-text"> Proceed </h6>
+            </div>
+        </div>
+    </div>
+<button type="submit" id="hiddenSubmit" style="display: none"></button>
+</form>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Student</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link href='https://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" th:href="@{/ui/css/add-student.css}">
+
+</head>
+<body>
+
+<form th:action="@{/ui/save-student}" method="post" enctype="multipart/form-data">
+
+    <h1>Add Student</h1>
+
+    <fieldset>
+        <legend><span class="number">1</span>Basic Info</legend>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+
+    </fieldset>
+
+    <fieldset>
+        <legend><span class="number">2</span>Upload Display Picture</legend>
+        <div class="container">
+            <div class="file-drop-area">
+                <span class="fake-btn">Choose files</span>
+                <span class="file-msg">or drop files here</span>
+                <input class="file-input" type="file" name="displayPicture" id="displayPicture">
+                <div class="item-delete"></div>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script th:src= "@{/ui/js/add-student.js}"></script>
+    <button type="submit">Add</button>
+    </fieldset>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard</title>
+  <link rel="shortcut icon" th:href="@{/users/images/logo.png}">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/users/css/student-dashboard.css}">
+</head>
+<body>
+<script th:src="@{/users/js/student-dashboard.js}"></script>
+<div class="blur">
+<header>
+  <div class="logo" title="University Management System">
+    <img th:src="@{/users/images/logo.png}" alt="">
+    <h2>U<span class="danger">M</span>S</h2>
+  </div>
+  <div class="navbar">
+    <a th:href="@{/users/home/student-dashboard}" class="active">
+      <span class="material-icons-sharp">home</span>
+      <h3>Home</h3>
+    </a>
+    <a th:href="@{/users/home/exam}">
+      <span class="material-icons-sharp">grid_view</span>
+      <h3>Examination</h3>
+    </a>
+    <a th:href="@{/users/home/change-password}">
+      <span class="material-icons-sharp">password</span>
+      <h3>Change Password</h3>
+    </a>
+    <a onclick="openForm()">
+      <span class="material-icons-sharp">logout</span>
+      <h3>Logout</h3>
+    </a>
+  </div>
+  <div id="profile-btn">
+    <span class="material-icons-sharp">person</span>
+  </div>
+  <div class="theme-toggler">
+    <span class="material-icons-sharp active">light_mode</span>
+    <span class="material-icons-sharp">dark_mode</span>
+  </div>
+
+</header>
+<div class="container">
+  <aside>
+    <div class="profile">
+      <div class="top">
+        <div class="profile-photo">
+          <img th:src="'data:image/png;base64,' + ${studentDTO.image}" alt="Image" />
+        </div>
+        <div class="info">
+          <p>Hey, <b th:text="${studentDTO.name}"></b> </p>
+          <small class="text-muted">DevXam</small>
+        </div>
+      </div>
+      <div class="about">
+        <h5>University</h5>
+        <p>Developers Incorporate</p>
+        <h5>Email</h5>
+        <p th:text="${studentDTO.email}"></p>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+    <h1>Attendance</h1>
+    <div class="subjects">
+      <div class="eg">
+        <span class="material-icons-sharp">architecture</span>
+        <h3>Engineering Graphics</h3>
+        <h2>12/14</h2>
+        <div class="progress">
+          <svg><circle cx="38" cy="38" r="36"></circle></svg>
+          <div class="number"><p>86%</p></div>
+        </div>
+        <small class="text-muted">Last 24 Hours</small>
+      </div>
+      <div class="mth">
+        <span class="material-icons-sharp">functions</span>
+        <h3>Mathematical Engineering</h3>
+        <h2>27/29</h2>
+        <div class="progress">
+          <svg><circle cx="38" cy="38" r="36"></circle></svg>
+          <div class="number"><p>93%</p></div>
+        </div>
+        <small class="text-muted">Last 24 Hours</small>
+      </div>
+      <div class="cs">
+        <span class="material-icons-sharp">computer</span>
+        <h3>Computer Architecture</h3>
+        <h2>27/30</h2>
+        <div class="progress">
+          <svg><circle cx="38" cy="38" r="36"></circle></svg>
+          <div class="number"><p>81%</p></div>
+        </div>
+        <small class="text-muted">Last 24 Hours</small>
+      </div>
+      <div class="cg">
+        <span class="material-icons-sharp">dns</span>
+        <h3>Database Management</h3>
+        <h2>24/25</h2>
+        <div class="progress">
+          <svg><circle cx="38" cy="38" r="36"></circle></svg>
+          <div class="number"><p>96%</p></div>
+        </div>
+        <small class="text-muted">Last 24 Hours</small>
+      </div>
+      <div class="net">
+        <span class="material-icons-sharp">router</span>
+        <h3>Network Security</h3>
+        <h2>25/27</h2>
+        <div class="progress">
+          <svg><circle cx="38" cy="38" r="36"></circle></svg>
+          <div class="number"><p>92%</p></div>
+        </div>
+        <small class="text-muted">Last 24 Hours</small>
+      </div>
+    </div>
+  </main>
+
+  <div class="right">
+
+    <div class="leaves">
+      <h2>Teacher(s)</h2>
+      <div class="teacher">
+        <div class="profile-photo"><img src="./images/profile-2.jpeg" alt=""></div>
+        <div class="info">
+          <h3>The Professor</h3>
+          <small class="text-muted">Full Day</small>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+<!-- partial -->
+<div class="form-popup" id="signOut">
+  <form th:action="@{/users/home/sign-out}" class="form-container" method="post">
+    <h1>Are you Sure you want to Sign Out? </h1>
+
+    <div class="profile-photo">
+      <img th:src="'data:image/png;base64,' + ${studentDTO.image}" alt="Image" />
+    </div>
+
+    <button type="submit" class="btn">Yes</button>
+    <button type="button" class="btn cancel" onclick="closeForm()">No</button>
+  </form>
+</div>
+
+</body>
+</html>
