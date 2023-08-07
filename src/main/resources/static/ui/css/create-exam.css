@@ -206,40 +206,92 @@ h2 {
     box-shadow: 0 19px 38px rgba(0, 0, 0, 0.13);
 }
 
-
-/* Radio Button
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-input[type=radio] {
-    position: absolute;
-    visibility: hidden;
+.content{
+    margin: auto;
+    padding: 15px;
+    max-width: 800px;
+    text-align: center;
 }
-
-label {
+.dpx{
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+}
+h1{
+    font-size:28px;
+    line-height:28px;
+    margin-bottom:15px;
+}
+label{
+    display:block;
+    line-height:40px;
+}
+.option-input {
+    position: relative;
+    top: 13.33333px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 40px;
+    width: 40px;
+    transition: all 0.15s ease-out 0s;
+    background: #cbd1d8;
+    border: none;
+    color: #fff;
     cursor: pointer;
-    font-weight: 400;
+    display: inline-block;
+    margin-right: 0.5rem;
+    outline: none;
+    position: relative;
+    z-index: 1000;
 }
-
-.check {
-    width: 30px; height: 30px;
+.option-input:hover {
+    background: #9faab7;
+}
+.option-input:checked {
+    background: #40e0d0;
+}
+.option-input:checked::before {
+    width: 40px;
+    height: 40px;
+    display:flex;
+    content: '\f00c';
+    font-size: 25px;
+    font-weight:bold;
     position: absolute;
+    align-items:center;
+    justify-content:center;
+    font-family:'Font Awesome 5 Free';
+}
+.option-input:checked::after {
+    -webkit-animation: click-wave 0.65s;
+    -moz-animation: click-wave 0.65s;
+    animation: click-wave 0.65s;
+    background: #40e0d0;
+    content: '';
+    display: block;
+    position: relative;
+    z-index: 100;
+}
+.option-input.radio {
     border-radius: 50%;
-    transition: transform .6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+.option-input.radio::after {
+    border-radius: 50%;
 }
 
-/* Reset */
-input#one ~ .check {
-    transform: translate(-50px, -25px);
-    background: var(--secondary-c);
+@keyframes click-wave {
+    0% {
+        height: 40px;
+        width: 40px;
+        opacity: 0.35;
+        position: relative;
+    }
+    100% {
+        height: 200px;
+        width: 200px;
+        margin-left: -80px;
+        margin-top: -80px;
+        opacity: 0;
+    }
 }
-input#two ~ .check {
-    transform: translate(-50px, -83px);
-    background: var(--primary-c);
-    box-shadow: 0 6px 12px rgba(33, 150, 243, 0.35);
-}
-
-/* Radio Input #1 */
-input#one:checked ~ .check { transform: translate(-50px, 33px); }
-
-/* Radio Input #2  */
-input#two:checked ~ .check { transform: translate(-50px, -25px); }
-

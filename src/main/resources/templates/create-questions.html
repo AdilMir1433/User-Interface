@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="UTF-8">
+    <title>Questionnaire</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/ui/css/questions.css}">
+
+</head>
+<body>
+<div class="questions">
+    <div class="border-class">
+    <h2>Questionnaire</h2>
+    <hr/>
+        <form th:action="@{/ui/saveQuestion}" method="post" id="submitForms"></form>
+    <form th:action="@{/ui/save-and-finish}" method="post">
+        <input type="text"  placeholder="Enter Question " name="question" class="form-control col-4 mb-4"/>
+        <input type="text"  placeholder="Enter Option 1 " name="option1" class="form-control col-4 mb-4"/>
+        <input type="text"  placeholder="Enter Option 2 " name="option2" class="form-control col-4 mb-4"/>
+        <input type="text"  placeholder="Enter Option 3 " name="option3" class="form-control col-4 mb-4"/>
+        <input type="text"  placeholder="Enter Correct Answer " name="answer" class="form-control col-4 mb-4"/>
+        <div class="btns">
+            <button class="btn btn-primary" type="submit" >Finish</button>
+            <button type="button" class="btn btn-success" onclick="submitForm()" >Next Question</button>
+        </div>
+
+    </form>
+    <hr/>
+    </div>
+</div>
+<script th:src= "@{/ui/js/questions.js}"></script>
+</body>
+</html>
