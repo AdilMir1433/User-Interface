@@ -1,5 +1,5 @@
 
-# User SInterface Service
+# User Interface Service
 
 Service to have all the front end call and make calls to appropiate backend services.
 
