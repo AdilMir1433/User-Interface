@@ -1,9 +1,7 @@
 
-# User Service
+# User SInterface Service
 
-A micro service to maintain and manipulate the user data. Contains Roles of an ADMIN, STUDENT and TEACHER. 
-
-Communicates with a database to maintain Data. Communicates with other microservices.
+Service to have all the front end call and make calls to appropiate backend services.
 
 
 
@@ -18,7 +16,7 @@ Communicates with a database to maintain Data. Communicates with other microserv
 Clone the project
 
 ```bash
-  git clone https://github.com/AdilMir1433/User-Service
+  git clone https://github.com/AdilMir1433/User-Interface
 ```
 
 Go to the project directory
@@ -42,8 +40,6 @@ Start the server
 
 ## Features
 
-- Multiple roles (ADMIN, STUDENT , TEACHER)
-- Only admin creates Accounts
-- Admin Approves Quizzes
-- Inter Communication
+- All Ui Code
+- Separate Service
 
