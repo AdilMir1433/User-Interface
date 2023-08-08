@@ -10,8 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-import static com.common.ImageCompressor.compressImage;
-
 @org.springframework.stereotype.Controller
 @Slf4j
 @RequestMapping("/ui")
@@ -175,7 +173,7 @@ public class UIController {
     {
         log.info("Question : {} ", questionDTO);
         questionDTO.setExamID(uiService.getExam(examName));
-        questionDTO.setType(QuestionType.MULTIPLE_CHOICE);
+        questionDTO.setQuestionType(QuestionType.MULTIPLE_CHOICE);
         String redirectTo =  uiService.saveQuestion(questionDTO);
         ModelAndView modelAndView = new ModelAndView(redirectTo);
         return modelAndView;
@@ -186,8 +184,12 @@ public class UIController {
     {
         log.info("Question : {} ", questionDTO);
         questionDTO.setExamID(uiService.getExam(examName));
+        questionDTO.setQuestionType(QuestionType.MULTIPLE_CHOICE);
         uiService.saveQuestion(questionDTO);
         ModelAndView modelAndView = new ModelAndView("teacher-dashboard");
+        UserDTOSession sessionData = uiService.getSessionData();
+        PersonDTO personDTO = new PersonDTO(sessionData.getUser().getId(), sessionData.getUser().getName(), sessionData.getUser().getEmail());
+        modelAndView.addObject("personDTO", personDTO);
         return modelAndView;
     }
 }

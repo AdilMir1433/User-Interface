@@ -4,6 +4,7 @@ import com.common.*;
 import com.example.ui.feignClient.ExamFeignClient;
 import com.example.ui.feignClient.UserFeignClient;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UIService {
 
     private final UserFeignClient userFeignClient;
@@ -50,7 +52,9 @@ public class UIService {
         return examFeignClient.saveQuestion(question);
     }
     public Long getExam(String examName){
-        return examFeignClient.getExam(examName);
+        Long id = examFeignClient.getExam(examName);
+        log.info("Exam ID: {}", id);
+        return id;
     }
 
 }

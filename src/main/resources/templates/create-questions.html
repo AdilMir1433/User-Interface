@@ -13,22 +13,39 @@
     <div class="border-class">
     <h2>Questionnaire</h2>
     <hr/>
-        <form th:action="@{/ui/saveQuestion}" method="post" id="submitForms"></form>
+        <form th:action="@{/ui/save-questions}" method="post" id="submitForms">
+            <input type="hidden"  placeholder="Enter Question " name="question" id="q" class="form-control col-4 mb-4" required/>
+            <input type="hidden"  placeholder="Enter Option 1 " name="option1"  id="op1" class="form-control col-4 mb-4" required/>
+            <input type="hidden"  placeholder="Enter Option 2 " name="option2"  id="op2" class="form-control col-4 mb-4" required/>
+            <input type="hidden"  placeholder="Enter Option 3 " name="option3"  id="op3" class="form-control col-4 mb-4" required/>
+            <input type="hidden"  placeholder="Enter Correct Answer " name="answer" id="a" class="form-control col-4 mb-4" required/>
+        </form>
     <form th:action="@{/ui/save-and-finish}" method="post">
-        <input type="text"  placeholder="Enter Question " name="question" class="form-control col-4 mb-4"/>
-        <input type="text"  placeholder="Enter Option 1 " name="option1" class="form-control col-4 mb-4"/>
-        <input type="text"  placeholder="Enter Option 2 " name="option2" class="form-control col-4 mb-4"/>
-        <input type="text"  placeholder="Enter Option 3 " name="option3" class="form-control col-4 mb-4"/>
-        <input type="text"  placeholder="Enter Correct Answer " name="answer" class="form-control col-4 mb-4"/>
+        <input type="text"  placeholder="Enter Question " name="question" id="ques" class="form-control col-4 mb-4" required/>
+        <input type="text"  placeholder="Enter Option 1 " name="option1" id="opsion1" class="form-control col-4 mb-4" required/>
+        <input type="text"  placeholder="Enter Option 2 " name="option2" id="opsion2" class="form-control col-4 mb-4" required/>
+        <input type="text"  placeholder="Enter Option 3 " name="option3" id="opsion3" class="form-control col-4 mb-4" required/>
+        <input type="text"  placeholder="Enter Correct Answer " name="answer" id="answer" class="form-control col-4 mb-4" required/>
         <div class="btns">
             <button class="btn btn-primary" type="submit" >Finish</button>
-            <button type="button" class="btn btn-success" onclick="submitForm()" >Next Question</button>
+            <button class="btn btn-success" type="button" onclick="HandleForm()">Next Question</button>
         </div>
 
     </form>
+
     <hr/>
     </div>
 </div>
-<script th:src= "@{/ui/js/questions.js}"></script>
+<script>
+    function HandleForm() {
+        const form = document.getElementById("submitForms");
+        document.getElementById("q").value = document.getElementById("ques").value;
+        document.getElementById("op1").value = document.getElementById("opsion1").value;
+        document.getElementById("op2").value = document.getElementById("opsion2").value;
+        document.getElementById("op3").value = document.getElementById("opsion3").value;
+        document.getElementById("a").value = document.getElementById("answer").value;
+        form.submit();
+    }
+</script>
 </body>
 </html>
