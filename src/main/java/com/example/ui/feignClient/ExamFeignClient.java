@@ -1,8 +1,6 @@
 package com.example.ui.feignClient;
 
-import com.common.ExamDTO;
-import com.common.QuestionDTO;
-import com.common.SubjectDTO;
+import com.common.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +25,9 @@ public interface ExamFeignClient {
 
     @GetMapping("/exam/get-exam")
     Long getExam(@RequestParam String  examName);
+
+    @GetMapping("/exam/get-all-exams")
+    List<ExamObject> getAllExams();
 
 }
 

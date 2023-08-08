@@ -56,5 +56,18 @@ public class UIService {
         log.info("Exam ID: {}", id);
         return id;
     }
+    public List<ExamObject> getAllExams(){
+        return examFeignClient.getAllExams();
+    }
+    public List<ExamObject> approvedExams(){
+        List<ExamObject> exams = getAllExams();
+        exams.removeIf(exam -> !exam.isApproved());
+        return exams;
+    }
+    public List<ExamObject> unapprovedExams(){
+        List<ExamObject> exams = getAllExams();
+        exams.removeIf(exam -> exam.isApproved());
+        return exams;
+    }
 
 }

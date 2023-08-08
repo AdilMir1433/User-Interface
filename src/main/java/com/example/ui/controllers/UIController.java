@@ -55,6 +55,10 @@ public class UIController {
     @GetMapping("/welcome")
     public ModelAndView welcome() {
         ModelAndView modelAndView = new ModelAndView("welcome");
+        List<ExamObject> approvedExams = uiService.approvedExams();
+        modelAndView.addObject("approvedExams", approvedExams);
+        List<ExamObject> unapprovedExams = uiService.unapprovedExams();
+        modelAndView.addObject("unapprovedExams", unapprovedExams);
         return modelAndView;
     }
     @GetMapping("/add-student")
