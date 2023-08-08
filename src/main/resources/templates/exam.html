@@ -8,6 +8,8 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
   <link rel="shortcut icon" th:href="@{/ui/images/logo.png}">
   <link rel="stylesheet" th:href="@{/ui/css/student-dashboard.css}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
   <style>
     body{overflow: hidden;}
@@ -18,8 +20,12 @@
       justify-content: center;
       flex-direction: column;
       height: 80vh;
-      width: 80%;
-      margin: auto;
+      padding: 10%;
+    }
+    .exam h2{
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
     }
   </style>
 </head>
@@ -60,48 +66,30 @@
 <main>
   <div class="exam timetable">
     <h2>Exam Available</h2>
+    <form th:action="@{/ui/attempt-exam}" method="get" id="attemptForm">
+
     <table>
       <thead>
       <tr>
         <th>Date</th>
         <th>Time</th>
         <th>Subject</th>
-        <th>Room no.</th>
+        <th>Status</th>
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td>13 May 2022</td>
-        <td>09-12 AM</td>
-        <td>CS200</td>
-        <td>38-718</td>
-      </tr>
-      <tr>
-        <td>16 May 2022</td>
-        <td>09-12 AM</td>
-        <td>DBMS130</td>
-        <td>38-718</td>
-      </tr>
-      <tr>
-        <td>18 May 2022</td>
-        <td>09-12 AM</td>
-        <td>MTH166</td>
-        <td>38-718</td>
-      </tr>
-      <tr>
-        <td>20 May 2022</td>
-        <td>09-12 AM</td>
-        <td>NS200</td>
-        <td>38-718</td>
-      </tr>
-      <tr>
-        <td>23 May 2022</td>
-        <td>09-12 AM</td>
-        <td>CS849</td>
-        <td>38-718</td>
-      </tr>
+        <tr th:each="exam: ${exams}">
+          <td th:text="${exam.startDate}"></td>
+          <td th:text="${exam.startTime}"></td>
+          <td th:text="${exam.examTitle}">
+            <input type="hidden" name="id" id="id" th:value="${exam.id}">
+          </td>
+          <td> <button type="button" class="btn btn-primary" onclick="attempt()">Primary</button> </td>
+
+        </tr>
       </tbody>
     </table>
+    </form>
   </div>
 </main>
 </main>

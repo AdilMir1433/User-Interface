@@ -19,6 +19,7 @@
             <input type="hidden"  placeholder="Enter Option 2 " name="option2"  id="op2" class="form-control col-4 mb-4" required/>
             <input type="hidden"  placeholder="Enter Option 3 " name="option3"  id="op3" class="form-control col-4 mb-4" required/>
             <input type="hidden"  placeholder="Enter Correct Answer " name="answer" id="a" class="form-control col-4 mb-4" required/>
+            <input type="hidden"  placeholder="Enter Score for this question " name="questionScore" id="qs" class="form-control col-4 mb-4" required/>
         </form>
     <form th:action="@{/ui/save-and-finish}" method="post">
         <input type="text"  placeholder="Enter Question " name="question" id="ques" class="form-control col-4 mb-4" required/>
@@ -26,6 +27,7 @@
         <input type="text"  placeholder="Enter Option 2 " name="option2" id="opsion2" class="form-control col-4 mb-4" required/>
         <input type="text"  placeholder="Enter Option 3 " name="option3" id="opsion3" class="form-control col-4 mb-4" required/>
         <input type="text"  placeholder="Enter Correct Answer " name="answer" id="answer" class="form-control col-4 mb-4" required/>
+        <input type="text"  placeholder="Enter Score for this question " name="questionScore" id="questionScore" class="form-control col-4 mb-4" required/>
         <div class="btns">
             <button class="btn btn-primary" type="submit" >Finish</button>
             <button class="btn btn-success" type="button" onclick="HandleForm()">Next Question</button>
@@ -44,6 +46,7 @@
         document.getElementById("op2").value = document.getElementById("opsion2").value;
         document.getElementById("op3").value = document.getElementById("opsion3").value;
         document.getElementById("a").value = document.getElementById("answer").value;
+        document.getElementById("qs").value = document.getElementById("questionScore").value;
         form.submit();
     }
 </script>

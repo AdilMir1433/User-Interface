@@ -423,6 +423,16 @@ label .label-text:before {
     opacity: 1;
 }
 
+.styleForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 5%;
+    border: 1px solid #77a0c5;
+    border-radius: 2%;
+}
+
 
 @media screen and (max-width: 900px) {
     .left-bar {

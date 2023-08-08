@@ -45,7 +45,7 @@ public class UIService {
     public String saveSubject(String subject){
         return examFeignClient.createSubject(subject);
     }
-    public String saveExam(ExamDTO exam){
+    public String saveExam(Exam exam){
         return examFeignClient.saveExam(exam);
     }
     public String saveQuestion(QuestionDTO question){
@@ -69,5 +69,27 @@ public class UIService {
         exams.removeIf(exam -> exam.isApproved());
         return exams;
     }
+
+    public String approveExam(Long id){
+        return examFeignClient.approveExam(id);
+    }
+    public String unapproveExam(Long id){
+        return examFeignClient.unapproveExam(id);
+    }
+
+    public List<Long> getTeachersByAdminID(Long id){
+        return userFeignClient.getTeacherId(id);
+    }
+    public Long getAdminID(Long id){
+        return userFeignClient.getAdminId(id);
+    }
+    public List<ExamDTO> getExamList(){
+        return examFeignClient.getExamDTOList();
+    }
+
+    public List<QuestionDTO> getQuestionList(Long examId){
+        return examFeignClient.getExamById(examId);
+    }
+
 
 }

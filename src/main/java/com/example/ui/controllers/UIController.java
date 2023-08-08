@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @org.springframework.stereotype.Controller
@@ -111,6 +114,22 @@ public class UIController {
     @GetMapping("/exams")
     public ModelAndView exam() {
         ModelAndView modelAndView = new ModelAndView("exam");
+
+        List<ExamDTO> exams = uiService.getExamList();
+        Long id = uiService.getSessionData().getUser().getId(); // student ID
+
+        Long adminID = uiService.getAdminID(id);
+
+        List<Long> ids = uiService.getTeachersByAdminID(adminID); //Teacher IDs
+
+        List<ExamDTO> filteredList = new ArrayList<>();
+
+        for (ExamDTO exam : exams) {
+            if (ids.contains(exam.getTeacherID())) {
+                filteredList.add(exam);
+            }
+        }
+        modelAndView.addObject("exams", filteredList);
         return modelAndView;
     }
     @GetMapping("/change-password")
@@ -147,13 +166,13 @@ public class UIController {
         List<SubjectDTO> subjectList = uiService.getSubjects();
         modelAndView.addObject("subjectList", subjectList);
         log.info("Subject List : {} ", subjectList.get(0).getSubjectName());
-        ExamDTO exam = new ExamDTO();
+        Exam exam = new Exam();
         modelAndView.addObject("exam", exam);
         return modelAndView;
 
     }
     @PostMapping("/send-exam")
-    public ModelAndView sendExam(@ModelAttribute ExamDTO exam)
+    public ModelAndView sendExam(@ModelAttribute Exam exam)
     {
         UserDTOSession sessionData = uiService.getSessionData();
         Long id = sessionData.getUser().getId();
@@ -175,7 +194,7 @@ public class UIController {
     @PostMapping("/save-questions")
     public ModelAndView saveQuestionnaire(@ModelAttribute QuestionDTO questionDTO)
     {
-        log.info("Question : {} ", questionDTO);
+        log.info("Question : {} ", questionDTO.getQuestionScore());
         questionDTO.setExamID(uiService.getExam(examName));
         questionDTO.setQuestionType(QuestionType.MULTIPLE_CHOICE);
         String redirectTo =  uiService.saveQuestion(questionDTO);
@@ -195,5 +214,50 @@ public class UIController {
         PersonDTO personDTO = new PersonDTO(sessionData.getUser().getId(), sessionData.getUser().getName(), sessionData.getUser().getEmail());
         modelAndView.addObject("personDTO", personDTO);
         return modelAndView;
+    }
+
+    @PostMapping("/approve-exam")
+    public ModelAndView approveExam(@RequestParam("examID") Long examID)
+    {
+        log.info("Exam ID : {} ", examID);
+        String redirectTo =  uiService.approveExam(examID);
+        ModelAndView modelAndView = new ModelAndView(redirectTo);
+        List<ExamObject> approvedExams = uiService.approvedExams();
+        modelAndView.addObject("approvedExams", approvedExams);
+        List<ExamObject> unapprovedExams = uiService.unapprovedExams();
+        modelAndView.addObject("unapprovedExams", unapprovedExams);
+        return modelAndView;
+    }
+    @PostMapping("/unapprove-exam")
+    public ModelAndView unapproveExam(@RequestParam("examID") Long examID)
+    {
+        log.info("Exam ID : {} ", examID);
+        String redirectTo =  uiService.unapproveExam(examID);
+        ModelAndView modelAndView = new ModelAndView(redirectTo);
+        List<ExamObject> approvedExams = uiService.approvedExams();
+        modelAndView.addObject("approvedExams", approvedExams);
+        List<ExamObject> unapprovedExams = uiService.unapprovedExams();
+        modelAndView.addObject("unapprovedExams", unapprovedExams);
+        return modelAndView;
+    }
+    @GetMapping("/attempt-exam")
+    public ModelAndView attemptExam(@RequestParam ExamDTO examDTO)
+    {
+        log.info("Exam ID : {} ", examDTO.getId());
+        ModelAndView modelAndView = new ModelAndView("attempt-exam");
+        List<QuestionDTO> questionDTOList = uiService.getQuestionList(examDTO.getId());
+        modelAndView.addObject("exam", examDTO);
+        modelAndView.addObject("questions", questionDTOList);
+        modelAndView.addObject("currentQuestionIndex", 0);
+        return modelAndView;
+    }
+    @PostMapping("/answer")
+    public ModelAndView answerQuestion(@RequestParam int questionIndex, @RequestParam String answer,) {
+        // Save the answer and process the form submission
+        // ...
+        if (questionIndex + 1 < questions.size()) {
+            model.addAttribute("currentQuestionIndex", questionIndex + 1);
+        }
+        return "questions";
     }
 }

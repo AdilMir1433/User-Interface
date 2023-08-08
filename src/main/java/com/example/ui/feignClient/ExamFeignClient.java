@@ -18,7 +18,7 @@ public interface ExamFeignClient {
     List<SubjectDTO> getAllSubjects();
 
     @PostMapping("/exam/save-exam")
-    String saveExam(@RequestBody ExamDTO exam);
+    String saveExam(@RequestBody Exam exam);
 
     @PostMapping("/exam/save-question")
     String saveQuestion(@RequestBody QuestionDTO questionDTO);
@@ -28,6 +28,18 @@ public interface ExamFeignClient {
 
     @GetMapping("/exam/get-all-exams")
     List<ExamObject> getAllExams();
+
+    @PostMapping("/exam/approve-exam")
+    String approveExam(@RequestParam Long examId);
+
+    @PostMapping("/exam/unapprove-exam")
+    String unapproveExam(@RequestParam Long examId);
+
+    @GetMapping("/exam/get-exam-list")
+    List<ExamDTO> getExamDTOList();
+
+    @GetMapping("/exam/get-questions-by-id")
+    List<QuestionDTO> getExamById(@RequestParam Long examId);
 
 }
 

@@ -7,6 +7,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @FeignClient(name = "user-service")
 public interface UserFeignClient {
     @PostMapping("/users/authentication/login")
@@ -25,4 +27,8 @@ public interface UserFeignClient {
     String saveTeacher(@RequestBody UserDTO user);
     @GetMapping("/users/authentication/sessionData")
     UserDTOSession getSessionData();
+    @PostMapping("/users/authentication/get-teacher-id")
+    List<Long> getTeacherId(@RequestParam("id") Long id);
+    @PostMapping("/users/authentication/get-admin-id")
+    Long getAdminId(@RequestParam("id") Long id);
 }
