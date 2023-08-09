@@ -6,6 +6,8 @@ import com.example.ui.feignClient.UserFeignClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -91,5 +93,32 @@ public class UIService {
         return examFeignClient.getExamById(examId);
     }
 
+    public ExamDTO getExamById(Long id){
+        return examFeignClient.getSingleExamById(id);
+    }
+    public void saveScore(ScoreDTO score){
+        userFeignClient.saveScore(score);
+    }
+
+    public List<UserDTO> getAllStudents(){
+        return userFeignClient.getAllStudents();
+    }
+    public List<ScoreDTO> getScoreOfStudent(Long id){
+        return userFeignClient.getScoreOfStudent(id);
+    }
+    public int questionScore(@RequestParam Long questionID)
+    {
+        return userFeignClient.questionScore(questionID);
+    }
+    public List<QuestionAndScore> getQuestionsAndScoreByExamID( Long examID, Long studentID){
+        return userFeignClient.getQuestionsAndScoreByExamID(examID, studentID);
+    }
+    public List<Long> getExamsOfStudent(Long studentID)
+    {
+        return userFeignClient.getExamsOfStudent(studentID);
+    }
+    public int getTotal(Long examId, Long userID){
+        return userFeignClient.getTotal(examId, userID);
+    }
 
 }

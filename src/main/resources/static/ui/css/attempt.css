@@ -1,0 +1,34 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,400;0,500;0,700;1,400;1,700&display=swap');
+
+.questions {
+    padding-top: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-width: 65%;
+}
+.border-class {
+    border: 1px solid #8992c0;
+    border-radius: 3%;
+    padding: 3%;
+    display: flex;
+    flex-direction: column;
+}
+.h2-tag{
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: #000;
+    margin-bottom: 2%;
+}
+.question {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-align: start;
+}
+.btn-submit {
+    margin-top: 10px;
+}

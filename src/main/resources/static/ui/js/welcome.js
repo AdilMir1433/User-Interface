@@ -7,14 +7,11 @@ function submitForms() {
     const form = document.getElementById("formSubmits");
     form.submit();
 }
-
-
-
 function openForm() {
     document.getElementById("subjectForm").style.display = "block";
 }
 
-function closeForm() {
+function closeForms() {
     document.getElementById("subjectForm").style.display = "none";
 }
 
@@ -39,4 +36,7 @@ function submitUnApproveForm(){
     document.getElementById("applyForUnApproval").value = examID;
     const form = document.getElementById("unabbrove");
     form.submit();
+}
+function viewStudents(){
+    document.getElementById("student-form").submit();
 }

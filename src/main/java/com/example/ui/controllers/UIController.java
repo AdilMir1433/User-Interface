@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Controller
 @Slf4j
@@ -21,6 +22,10 @@ public class UIController {
 
     private final UIService uiService;
     private String examName;
+    private int questionsSize = 0;
+    private int questionNumber = 0;
+    private List<QuestionDTO> questionDTOList = new ArrayList<>();
+    private ExamDTO examDTO = new ExamDTO();
 
     @GetMapping("/")
     public ModelAndView login(@ModelAttribute JWTRequest request) {
@@ -59,8 +64,10 @@ public class UIController {
     public ModelAndView welcome() {
         ModelAndView modelAndView = new ModelAndView("welcome");
         List<ExamObject> approvedExams = uiService.approvedExams();
+
         modelAndView.addObject("approvedExams", approvedExams);
         List<ExamObject> unapprovedExams = uiService.unapprovedExams();
+
         modelAndView.addObject("unapprovedExams", unapprovedExams);
         return modelAndView;
     }
@@ -126,7 +133,9 @@ public class UIController {
 
         for (ExamDTO exam : exams) {
             if (ids.contains(exam.getTeacherID())) {
-                filteredList.add(exam);
+                if(exam.isApproved()) {
+                    filteredList.add(exam);
+                }
             }
         }
         modelAndView.addObject("exams", filteredList);
@@ -240,24 +249,83 @@ public class UIController {
         modelAndView.addObject("unapprovedExams", unapprovedExams);
         return modelAndView;
     }
-    @GetMapping("/attempt-exam")
-    public ModelAndView attemptExam(@RequestParam ExamDTO examDTO)
+    @PostMapping("/attempt-exam")
+    public ModelAndView attemptExam(@RequestParam Long id)
     {
-        log.info("Exam ID : {} ", examDTO.getId());
+        examDTO = uiService.getExamById(id);
         ModelAndView modelAndView = new ModelAndView("attempt-exam");
-        List<QuestionDTO> questionDTOList = uiService.getQuestionList(examDTO.getId());
+        questionDTOList = uiService.getQuestionList(examDTO.getId());
+        questionsSize = questionDTOList.size();
         modelAndView.addObject("exam", examDTO);
-        modelAndView.addObject("questions", questionDTOList);
-        modelAndView.addObject("currentQuestionIndex", 0);
+        modelAndView.addObject("question", questionDTOList.get(questionNumber));
+        questionNumber++;
         return modelAndView;
     }
-    @PostMapping("/answer")
-    public ModelAndView answerQuestion(@RequestParam int questionIndex, @RequestParam String answer,) {
-        // Save the answer and process the form submission
-        // ...
-        if (questionIndex + 1 < questions.size()) {
-            model.addAttribute("currentQuestionIndex", questionIndex + 1);
+    @PostMapping("/submit-exam")
+    public ModelAndView submitQuestion(@RequestParam("answer") String answer, @RequestParam("id") Long questionID){
+
+        int score = 0;
+        if(answer.equals(questionDTOList.get(questionNumber-1).getAnswer()))
+        {
+            score = questionDTOList.get(questionNumber-1).getQuestionScore();
         }
-        return "questions";
+        ScoreDTO scoreDTO = new ScoreDTO();
+        scoreDTO.setExamID(examDTO.getId());
+        scoreDTO.setQuestionID(questionID);
+        scoreDTO.setScore(score);
+        scoreDTO.setStudentID(uiService.getSessionData().getUser().getId());
+        uiService.saveScore(scoreDTO);
+
+
+        if(questionNumber == questionsSize)
+        {
+            ModelAndView modelAndView = new ModelAndView("redirect:/ui/student-dashboard");
+            score=0;
+            questionNumber=0;
+            questionsSize=0;
+            return modelAndView;
+        }
+        ModelAndView modelAndView = new ModelAndView("attempt-exam");
+        modelAndView.addObject("exam", examDTO);
+        modelAndView.addObject("question", questionDTOList.get(questionNumber++));
+
+        return modelAndView;
     }
+    @GetMapping("/students")
+    public ModelAndView getStudents()
+    {
+        ModelAndView modelAndView = new ModelAndView("students");
+        List<UserDTO> students = uiService.getAllStudents();
+        UserDTOSession sessionData = uiService.getSessionData();
+        List<UserDTO> filteredStudents = students
+                .stream()
+                .filter(student -> student.getAdminID()
+                        .equals(sessionData
+                                .getUser()
+                                .getId()))
+                .collect(Collectors.toList());
+        modelAndView.addObject("students", filteredStudents);
+        return modelAndView;
+    }
+    @GetMapping("/view-records")
+    public ModelAndView viewRecords(@RequestParam Long id)
+    {
+        ModelAndView modelAndView = new ModelAndView("view-records");
+        log.info("Student ID : {} ", id);
+        List<Long> examIDs = uiService.getExamsOfStudent(id);
+        log.info("Exam IDs : {} ", examIDs.size());
+        List<ExamRecord> examRecords = new ArrayList<>();
+        for (Long examID: examIDs) {
+            ExamRecord examRecord = new ExamRecord();
+            examRecord.setExamName(uiService.getExamById(examID).getExamTitle());
+            examRecord.setExamID(examID);
+            examRecord.setTotal(uiService.getTotal(examID, id));
+            log.info("Total : {} ", examRecord.getTotal());
+            examRecord.setQuestionsAndScores(uiService.getQuestionsAndScoreByExamID(examID, id));
+            examRecords.add(examRecord);
+        }
+        modelAndView.addObject("exams", examRecords);
+        return modelAndView;
+    }
+
 }

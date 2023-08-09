@@ -1,28 +1,48 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const questions = document.querySelectorAll('form');
-    let currentQuestionIndex = 0;
+// function HandleForm() {
+//     alert("In FUnction")
+//     const form = document.getElementById("submitForms");
+//     const option1 = document.getElementById("opsion1");
+//     const option2 = document.getElementById("opsion2");
+//     const option3 = document.getElementById("opsion3");
+//     const option4 = document.getElementById("answer");
+//
+//     alert("About to check")
+//     if(option1.checked) {
+//         document.getElementById("ans").value = option1.value;
+//     }
+//     else if (option2.checked) {
+//         document.getElementById("ans").value = option2.value;
+//     }
+//     else if (option3.checked) {
+//         document.getElementById("ans").value = option3.value;
+//     }
+//     else if (option4.checked) {
+//         document.getElementById("ans").value = option4.value;
+//     }
+//     alert("Checked")
+//     form.submit();
+// }
+document.addEventListener("DOMContentLoaded", function() {
+    const submitButton = document.getElementById("submit");
+    submitButton.addEventListener("click", function() {
+        const form = document.getElementById("submitForms");
+        const option1 = document.getElementById("opsion1");
+        const option2 = document.getElementById("opsion2");
+        const option3 = document.getElementById("opsion3");
+        const option4 = document.getElementById("opsion4");
 
-    function showQuestion(index) {
-        questions[index].style.display = 'block';
-    }
-
-    function hideQuestion(index) {
-        questions[index].style.display = 'none';
-    }
-
-    showQuestion(currentQuestionIndex);
-
-    questions.forEach(function(form) {
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            hideQuestion(currentQuestionIndex);
-            currentQuestionIndex++;
-            if (currentQuestionIndex < questions.length) {
-                showQuestion(currentQuestionIndex);
-            } else {
-                // Redirect to a new page
-                window.location.href = '/next-page';
-            }
-        });
+        if(option1.checked) {
+            document.getElementById("ans").value = option1.value;
+        }
+        else if (option2.checked) {
+            document.getElementById("ans").value = option2.value;
+        }
+        else if (option3.checked) {
+            document.getElementById("ans").value = option3.value;
+        }
+        else if (option4.checked) {
+            document.getElementById("ans").value = option4.value;
+        }
+        form.submit();
     });
 });

@@ -1,3 +1,6 @@
-function attempt() {
-    document.getElementById("attemptForm").submit();
+function attempt(id) {
+     document.getElementById("id").value =  id.value;
+     document.getElementById("attemptForm").submit();
+
 }
+

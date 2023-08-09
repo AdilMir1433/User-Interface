@@ -30,18 +30,19 @@
   </style>
 </head>
 <body>
+<script th:src="@{/ui/js/exam.js}"></script>
 <script th:src="@{/ui/js/student-dashboard.js}"></script>
 <header>
-  <div class="logo">
-    <img th:src="@{/ui/images.logo.png}" alt="">
-    <h2>U<span class="danger">M</span>S</h2>
-  </div>
+      <div class="logo">
+        <img th:src="@{/ui/images/logo.png}" alt="">
+        <h2>U<span class="danger">M</span>S</h2>
+      </div>
   <div class="navbar">
-    <a th:href="@{/ui/student-dashboard}">
+    <a th:href="@{/ui/student-dashboard}" class="active">
       <span class="material-icons-sharp">home</span>
       <h3>Home</h3>
     </a>
-    <a th:href="@{/ui/change-password}" class="active">
+    <a class="exams" th:href="@{/ui/exams}">
       <span class="material-icons-sharp">grid_view</span>
       <h3>Examination</h3>
     </a>
@@ -54,19 +55,19 @@
       <h3>Logout</h3>
     </a>
   </div>
-  <div id="profile-btn" style="display: none;">
-    <span class="material-icons-sharp">person</span>
-  </div>
-  <div class="theme-toggler">
-    <span class="material-icons-sharp active">light_mode</span>
-    <span class="material-icons-sharp">dark_mode</span>
-  </div>
+      <div id="profile-btn" style="display: none;">
+        <span class="material-icons-sharp">person</span>
+      </div>
+      <div class="theme-toggler">
+        <span class="material-icons-sharp active">light_mode</span>
+        <span class="material-icons-sharp">dark_mode</span>
+      </div>
 </header>
 
 <main>
   <div class="exam timetable">
     <h2>Exam Available</h2>
-    <form th:action="@{/ui/attempt-exam}" method="get" id="attemptForm">
+
 
     <table>
       <thead>
@@ -79,20 +80,26 @@
       </thead>
       <tbody>
         <tr th:each="exam: ${exams}">
-          <td th:text="${exam.startDate}"></td>
-          <td th:text="${exam.startTime}"></td>
-          <td th:text="${exam.examTitle}">
-            <input type="hidden" name="id" id="id" th:value="${exam.id}">
-          </td>
-          <td> <button type="button" class="btn btn-primary" onclick="attempt()">Primary</button> </td>
-
+          <td th:text="${exam.startDate}" id="startDate" class="startDate" th:value="${exam.startDate}"></td>
+          <td th:text="${exam.startTime}" th:value="${exam.startTime}" id="startTime"></td>
+          <td th:text="${exam.examTitle}" th:value="${exam.examTitle}" id="examTitle"></td>
+          <td th:text="${exam.endTime}" th:value="${exam.endTime}" id="endTime" style="display: none"></td>
+          <td th:text="${exam.id}" th:value="${exam.id}" id="i" style="display: none"></td>
+          <td th:text="${exam.subjectID}" th:value="${exam.subjectID}" id="si" style="display: none"></td>
+          <td th:text="${exam.teacherID}" th:value="${exam.teacherID}" id="ti"  style="display: none"></td>
+          <td th:text="${exam.approved}" th:value="${exam.approved}" id="ap"  style="display: none"></td>
+          <td> <button type="button" class="btn btn-primary" th:value="${exam.id}" th:id="${exam.id}" onclick="attempt(this)">Not attempted</button> </td>
         </tr>
       </tbody>
     </table>
-    </form>
+
   </div>
 </main>
 </main>
+<form th:action="@{/ui/attempt-exam}" method="post" id="attemptForm">
+    <input type="hidden" id="id" name="id">
+
+</form>
 <div class="form-popup" id="signOut">
   <form th:action="@{/ui/sign-out}" class="form-container" method="post">
     <h1>Are you Sure you want to Sign Out? </h1>

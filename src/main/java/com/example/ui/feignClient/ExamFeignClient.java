@@ -40,6 +40,9 @@ public interface ExamFeignClient {
 
     @GetMapping("/exam/get-questions-by-id")
     List<QuestionDTO> getExamById(@RequestParam Long examId);
+    @GetMapping("/exam/get-exam-by-id")
+    ExamDTO getSingleExamById(@RequestParam Long examId);
+
 
 }
 

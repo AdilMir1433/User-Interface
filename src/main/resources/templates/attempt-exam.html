@@ -2,44 +2,50 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
     <meta charset="UTF-8">
-    <title>Exam</title>
+    <title>Attempt Exam</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-    <link rel="stylesheet" th:href="@{/ui/css/questions.css}">
+    <link rel="stylesheet" th:href="@{/ui/css/attempt.css}">
 
 </head>
-<body>
-<div class="questions">
-    <div class="border-class" th:each="question, status: ${questions}">
-        <h2 th:text="${exam.examTitle}"></h2>
-        <hr/>
-        <form th:if="${status.index == currentQuestionIndex}" th:action="@{/answer}" method="post">
-            <input type="hidden" name="id" th:value="${question.id}"/>
-            <input type="hidden" name="questionIndex" th:value="${status.index}" />
-            <div name="question" id="ques" class="form-control col-4 mb-4" th:text="${question.question}"/>
-            <input type="radio"  name="answer" id="opsion1" class="form-control col-4 mb-4" th:text="${question.option1}"/>
-            <input type="radio"  name="answer" id="opsion2" class="form-control col-4 mb-4" th:text="${question.option2}"/>
-            <input type="radio"  name="answer" id="opsion3" class="form-control col-4 mb-4" th:text="${question.option3}"/>
-            <input type="radio"  name="answer" id="opsion4" class="form-control col-4 mb-4" th:text="${question.answer}"/>
-            <div class="btns">
-                <button class="btn btn-success" type="submit" onclick="HandleForm()">Next Question</button>
+    <body>
+            <div class="questions">
+                <form th:action="@{/ui/submit-exam}" method="post" id="submitForms">
+                    <input type="hidden" name="id" th:value="${question.id}"/>
+                    <input type="hidden" name="answer" id="ans" />
+                </form>
+                <div class="border-class">
+                    <h2 class="h2-tag" th:text="${exam.examTitle}"></h2>
+                    <hr/>
+
+                        <input type="hidden" name="questionScore" th:value="${question.questionScore}"/>
+                        <div class="question" name="question" id="ques" th:text="${question.question}"></div>
+
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="opsion1" th:value="${question.option1}">
+                        <label class="form-check-label" for="opsion1" th:text="${question.option1}"></label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="opsion2" th:value="${question.option2}">
+                        <label class="form-check-label" for="opsion2" th:text="${question.option2}"></label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="opsion3" th:value="${question.option3}">
+                        <label class="form-check-label" for="opsion3" th:text="${question.option3}"></label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="opsion4" th:value="${question.answer}">
+                        <label class="form-check-label" for="opsion4" th:text="${question.answer}"></label>
+                    </div>
+
+                        <button class="btn btn-success btn-submit" id="submit" type="submit">Next Question</button>
+                    <hr/>
+                </div>
             </div>
-
-        </form>
-
-        <hr/>
-    </div>
-</div>
-<script>
-    function HandleForm() {
-        const form = document.getElementById("submitForms");
-        document.getElementById("q").value = document.getElementById("ques").value;
-        document.getElementById("op1").value = document.getElementById("opsion1").value;
-        document.getElementById("op2").value = document.getElementById("opsion2").value;
-        document.getElementById("op3").value = document.getElementById("opsion3").value;
-        document.getElementById("a").value = document.getElementById("answer").value;
-        form.submit();
-    }
-</script>
-</body>
+            <script th:src="@{/ui/js/attempt.js}"></script>
+    </body>
 </html>

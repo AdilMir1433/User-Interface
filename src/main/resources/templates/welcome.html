@@ -192,6 +192,15 @@
                 </div>
                 <div class="more-button"></div>
             </div>
+
+            <div class="task-box blue">
+                <div class="description-task">
+                    <form th:action="@{/ui/students}" method="get" id="student-form"></form>
+                    <div class="time">View Students</div>
+                    <div class="task-name" onclick="viewStudents()">View Student's Karwai</div>
+                </div>
+                <div class="more-button"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -204,7 +213,7 @@
             <input type="text" placeholder="Enter Subject Name" name="subjectName" id="subjectName" required>
 
             <button type="submit" class="btn">Create</button>
-            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            <button type="button" class="btn cancel" onclick="closeForms()">Close</button>
         </form>
     </div>
 
