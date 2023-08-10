@@ -1,6 +1,10 @@
 package com.example.ui.feignClient;
 
-import com.common.*;
+import com.common.ExamDTOs.Exam;
+import com.common.ExamDTOs.ExamDTO;
+import com.common.ExamDTOs.ExamObject;
+import com.common.QuestionDTOs.QuestionDTO;
+import com.common.SubjectDTOs.SubjectDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

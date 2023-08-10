@@ -1,6 +1,10 @@
 package com.example.ui.feignClient;
 
-import com.common.*;
+import com.common.ExamDTOs.ScoreDTO;
+import com.common.JWTDTOs.JWTRequest;
+import com.common.QuestionDTOs.QuestionAndScore;
+import com.common.UserDTOs.UserDTO;
+import com.common.UserDTOs.UserDTOSession;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

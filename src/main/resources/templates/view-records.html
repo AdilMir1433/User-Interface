@@ -7,59 +7,27 @@
   <title>View Records</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
   <link rel="shortcut icon" th:href="@{/ui/images/logo.png}">
-  <link rel="stylesheet" th:href="@{/ui/css/student-dashboard.css}">
+  <link rel="stylesheet" th:href="@{/ui/css/view-records.css}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-
-  <style>
-    body{overflow: hidden;}
-    header{position: relative;}
-    .exam{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      height: 80vh;
-      padding: 10%;
-    }
-    .exam h2{
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-  </style>
 </head>
 <body>
 <script th:src="@{/ui/js/exam.js}"></script>
-<script th:src="@{/ui/js/student-dashboard.js}"></script>
-<header>
-      <div class="logo">
-        <img th:src="@{/ui/images/logo.png}" alt="">
-        <h2>U<span class="danger">M</span>S</h2>
+  <div class="exam">
+      <h2>Records</h2>
+      <div class="title" th:each="exam: ${exams}" th:text="${exam.examName}">
+          <span class="total">Total Marks</span>
+            <div th:text="${exam.total}" ></div>
+             <div th:each="ques, index: ${exam.questionsAndScores}">
+                 <span class="ques-number">Question Number</span>
+                <span th:text="${index.index + 1}"></span>
+                 <span class="ques"> Question: </span>
+                <span th:text="${ques.question}"></span>
+                    <span class="score"> Score: </span>
+                <span th:text="${ques.score}"></span>
+          </div>
       </div>
-</header>
-
-<main>
-  <div class="exam timetable">
-    <h2>Records</h2>
-    <div th:each="exam: ${exams}" th:text="${exam.examName}">
-      <span>Total Marks</span>
-        <div th:text="${exam.total}" ></div>
-        <div th:each="ques, index: ${exam.questionsAndScores}">
-          <span th:text="${index.index+1}"></span>
-          <span th:text="${ques.question}"></span>
-            <span> Score </span>
-          <span th:text="${ques.score}"></span>
-
-        </div>
-    </div>
-
+     </div>
   </div>
-</main>
-</main>
-<form th:action="@{/ui/view-records}" method="post" id="attemptForm">
-    <input type="hidden" id="id" name="id">
-
-</form>
 </body>
 </html>
