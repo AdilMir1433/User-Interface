@@ -25,34 +25,34 @@
         <div class='content'>
           <div class="dpx">
             <div class='py' th:each="subject: ${subjectList}">
-              <input type="radio" th:name="subjects" th:id="${subject.id}" onclick="setID(this)" th:text="${subject.subjectName}"/>
+              <input type="radio" th:name="subjects" th:id="${subject.id}" onclick="setID(this)" th:text="${subject.subjectName}" required/>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-12">
             <div class="form-group">
-              <!-- <label for="name">Name</label> --> <input class="form-control" type="text" placeholder="Name" th:field="${exam.examTitle}"> </div>
+              <!-- <label for="name">Name</label> --> <input class="form-control" type="text" placeholder="Name" th:field="${exam.examTitle}" required autocomplete="off"> </div>
           </div>
         </div>
         <div class= "row">
           <div class="col-sm-12">
             <div class="form-group">
-              <div class="input-group"> <input class="form-control" type="date" placeholder="Enter Start Date" th:field="${exam.startDate}" th:pattern="'yyyy-MM-dd'" id="datePicker"> </div>
+              <div class="input-group"> <input class="form-control" type="date" placeholder="Enter Start Date" th:field="${exam.startDate}" th:pattern="'yyyy-MM-dd'" id="datePicker" required autocomplete="off"> </div>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-12">
             <div class="form-group">
-              <div class="input-group"> <input class="form-control" type="time" placeholder="Enter Start Time" th:field="${exam.startTime}" th:pattern="'HH:mm'" id="startTimePicker"> </div>
+              <div class="input-group"> <input class="form-control" type="time" placeholder="Enter Start Time" th:field="${exam.startTime}" th:pattern="'HH:mm'" id="startTimePicker" required autocomplete="off"> </div>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-12">
             <div class="form-group">
-              <div class="input-group"> <input class="form-control" type="time" placeholder="Enter End Time" th:field="${exam.endTime}" th:pattern="'HH:mm'" id="endTimePicker"> </div>
+              <div class="input-group"> <input class="form-control" type="time" placeholder="Enter End Time" th:field="${exam.endTime}" th:pattern="'HH:mm'" id="endTimePicker" required autocomplete="off"> </div>
             </div>
           </div>
         </div>

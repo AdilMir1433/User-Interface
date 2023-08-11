@@ -42,18 +42,6 @@
       <span class="material-icons-sharp">home</span>
       <h3>Home</h3>
     </a>
-    <a class="exams" th:href="@{/ui/exams}">
-      <span class="material-icons-sharp">grid_view</span>
-      <h3>Examination</h3>
-    </a>
-    <a th:href="@{/ui/change-password}">
-      <span class="material-icons-sharp">password</span>
-      <h3>Change Password</h3>
-    </a>
-    <a onclick="openForm()">
-      <span class="material-icons-sharp">logout</span>
-      <h3>Logout</h3>
-    </a>
   </div>
       <div id="profile-btn" style="display: none;">
         <span class="material-icons-sharp">person</span>
@@ -88,7 +76,11 @@
           <td th:text="${exam.subjectID}" th:value="${exam.subjectID}" id="si" style="display: none"></td>
           <td th:text="${exam.teacherID}" th:value="${exam.teacherID}" id="ti"  style="display: none"></td>
           <td th:text="${exam.approved}" th:value="${exam.approved}" id="ap"  style="display: none"></td>
-          <td> <button type="button" class="btn btn-primary" th:value="${exam.id}" th:id="${exam.id}" onclick="attempt(this)">Not attempted</button> </td>
+          <div >
+          <td>
+            <button type="button" class="btn btn-primary" th:value="${exam.id}" th:id="${exam.id}" onclick="attempt(this)">Attempt</button>
+          </td>
+          </div>
         </tr>
       </tbody>
     </table>

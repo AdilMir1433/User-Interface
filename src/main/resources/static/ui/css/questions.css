@@ -27,3 +27,6 @@
     flex-direction: row;
     margin-top: 2%;
 }
+.mcqBased, .textBased{
+    display: none;
+}

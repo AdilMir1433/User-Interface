@@ -54,4 +54,5 @@ public interface UserFeignClient {
 
     @GetMapping("/users/authentication/get-total-of-student")
     int getTotal(@RequestParam Long examId, @RequestParam Long userID);
+
 }

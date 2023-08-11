@@ -47,6 +47,8 @@ public interface ExamFeignClient {
     @GetMapping("/exam/get-exam-by-id")
     ExamDTO getSingleExamById(@RequestParam Long examId);
 
+    @PostMapping("/exam/delete-exam")
+    void deleteExam(@RequestParam Long examId);
 
 }
 

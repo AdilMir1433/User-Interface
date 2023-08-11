@@ -453,7 +453,18 @@ main .timetable.active .closeBtn{
     font-family: "Poppins", sans-serif;
     background-color: red;
 }
-
+.records {
+    font-family: "Poppins", sans-serif;
+    border-radius: 5px;
+    font-weight: lighter;
+    border: 1px solid #ccc;
+    padding: 7px;
+    color: whitesmoke;
+    background-color: cornflowerblue;
+}
+.records:hover {
+    background-color: #418ad3;
+}
 /* Add some hover effects to buttons */
 .form-container .btn:hover, .open-button:hover {
     opacity: 1;

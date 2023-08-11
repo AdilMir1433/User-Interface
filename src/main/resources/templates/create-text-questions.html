@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="UTF-8">
+    <title>Questionnaire</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/ui/css/questions.css}">
+
+</head>
+<body>
+<div class="questions">
+    <div class="border-class">
+    <h2>Questionnaire</h2>
+
+    <hr/>
+            <form th:action="@{/ui/save-questions}" method="post" id="submitForms">
+                <input type="hidden"  placeholder="Enter Question " name="question" id="q" class="form-control col-4 mb-4" required/>
+                <input type="hidden"  placeholder="Enter Correct Answer " name="answer" id="a" class="form-control col-4 mb-4" required/>
+                <input type="hidden"  placeholder="Enter Score for this question " name="questionScore" id="qs" class="form-control col-4 mb-4" required/>
+                <input type="hidden" name="questionType" value="TEXT"required>
+            </form>
+            <form th:action="@{/ui/save-and-finish}" method="post">
+                <input type="text"  placeholder="Enter Question " name="question" id="ques" class="form-control col-4 mb-4" required autocomplete="off"/>
+                <input type="text"  placeholder="Enter Correct Answer " name="answer" id="answer" class="form-control col-4 mb-4" required autocomplete="off"/>
+                <input type="number"  placeholder="Enter Score for this question " name="questionScore" id="questionScore" class="form-control col-4 mb-4" required autocomplete="off"/>
+                <div class="btns">
+                    <button class="btn btn-primary" type="submit" >Finish</button>
+                    <button class="btn btn-success" type="button" onclick="HandleForm()">Next Question</button>
+                </div>
+             </form>
+    <hr/>
+    </div>
+</div>
+<script>
+    function HandleForm() {
+        const form = document.getElementById("submitForms");
+        let q = document.getElementById("q");
+        q.value = document.getElementById("ques").value;
+
+        let a = document.getElementById("a");
+        a.value = document.getElementById("answer").value;
+
+        let qs = document.getElementById("qs");
+        qs.value = document.getElementById("questionScore").value;
+
+        if (q.value === "" || a.value === "" || qs.value === "") {
+            alert("Please fill all the fields");
+        }
+        else
+        {
+            form.submit();
+        }
+    }
+</script>
+</body>
+</html>

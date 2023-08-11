@@ -20,6 +20,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -391,5 +395,40 @@ public class UIService {
             return 0;
         }
     }
+
+    public void deleteExam(Long id){
+        try {
+            examFeignClient.deleteExam(id);
+        }
+        catch (CommonException e){
+            log.info("Error: {}", e.getMessage());
+        }
+        catch (FeignException e){
+            log.info("Error: {}", e.getMessage());
+        }
+    }
+    public Boolean isCurrentDateTimeInRange(String startTime, String startDate, String endTime) {
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        LocalTime parsedStartTime = LocalTime.parse(startTime, timeFormatter);
+        LocalTime parsedEndTime = LocalTime.parse(endTime, timeFormatter);
+        LocalDate parsedStartDate = LocalDate.parse(startDate, dateFormatter);
+
+        LocalDateTime rangeStartDateTime = LocalDateTime.of(parsedStartDate, parsedStartTime);
+        LocalDateTime rangeEndDateTime = LocalDateTime.of(parsedStartDate, parsedEndTime);
+
+        if (currentDateTime.isAfter(rangeStartDateTime) && currentDateTime.isBefore(rangeEndDateTime)) {
+            LocalTime currentTime = currentDateTime.toLocalTime();
+
+            return currentTime.isAfter(parsedStartTime) && currentTime.isBefore(parsedEndTime);
+        }
+
+        return false;
+    }
+
+
 
 }

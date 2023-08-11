@@ -1,5 +1,6 @@
 package com.example.ui.controllers;
 
+import com.cloudinary.Cloudinary;
 import com.common.ExamDTOs.*;
 import com.common.Image.ImageCompressor;
 import com.common.JWTDTOs.JWTRequest;
@@ -18,8 +19,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Controller
@@ -144,9 +148,11 @@ public class UIController {
     public ModelAndView saveStudent(@RequestParam("name") String name,
                                      @RequestParam("email") String email,
                                      @RequestParam("password") String password,
-                                     @RequestParam("displayPicture") MultipartFile image) {
+                                     @RequestParam("displayPicture") MultipartFile image) throws IOException {
+
         String redirectTo = uiService.saveStudent(name, email, password, image);
         ModelAndView modelAndView = new ModelAndView(redirectTo);
+
         if(redirectTo.equals("error"))
         {
             modelAndView.addObject("error", "/ui/welcome");
@@ -192,9 +198,9 @@ public class UIController {
         ModelAndView modelAndView = new ModelAndView("student-dashboard");
         UserDTOSession sessionData = uiService.getSessionData();
 
-        byte [] decompressedImage = ImageCompressor.decompressImage(sessionData.getUser().getDisplayPicture());
+        //byte [] decompressedImage = ImageCompressor.decompressImage(sessionData.getUser().getDisplayPicture());
 
-        String studentImage = ImageCompressor.convertImageIntoString(decompressedImage);
+        String studentImage = ImageCompressor.convertImageIntoString(sessionData.getUser().getDisplayPicture());
 
         StudentDTO studentDTO = new StudentDTO(sessionData.getUser().getName(), studentImage, sessionData.getUser().getEmail());
 
@@ -218,15 +224,19 @@ public class UIController {
         List<Long> ids = uiService.getTeachersByAdminID(adminID); //Teacher IDs
 
         List<ExamDTO> filteredList = new ArrayList<>();
-
+        List<Long> examsOfStudent = uiService.getExamsOfStudent(id);
+        //List<Boolean> hasExamStarted = new ArrayList<>();
         for (ExamDTO exam : exams) {
-            if (ids.contains(exam.getTeacherID())) {
-                if(exam.isApproved()) {
-                    filteredList.add(exam);
+            if (ids.contains(exam.getTeacherID())) { // if the exam is created by the teacher of the student
+                if(exam.isApproved()) { // if the exam is approved
+                    if(!examsOfStudent.contains(exam.getId())) {
+                        filteredList.add(exam);
+                    }
                 }
             }
         }
         modelAndView.addObject("exams", filteredList);
+       // modelAndView.addObject("hasExamStarted", hasExamStarted);
         return modelAndView;
     }
 
@@ -257,7 +267,18 @@ public class UIController {
         ModelAndView modelAndView = new ModelAndView("teacher-dashboard");
         UserDTOSession sessionData = uiService.getSessionData();
         PersonDTO personDTO = new PersonDTO(sessionData.getUser().getId(), sessionData.getUser().getName(), sessionData.getUser().getEmail());
+
+        List<UserDTO> students = uiService.getAllStudents();
+        log.info("Session ID : {} ", sessionData.getUser().getAdminID());
+        List<UserDTO> filteredStudents = students
+                .stream()
+                .filter(student -> student.getAdminID().equals(sessionData.getUser().getAdminID()))
+                .filter(student -> uiService.getScoreOfStudent(student.getId()).size() > 0)
+                .collect(Collectors.toList());
+        log.info("Filtered Students : {} ", filteredStudents.size());
+        modelAndView.addObject("students", filteredStudents);
         modelAndView.addObject("personDTO", personDTO);
+
         return modelAndView;
     }
 
@@ -318,6 +339,12 @@ public class UIController {
         ModelAndView modelAndView = new ModelAndView("create-questions");
         return modelAndView;
     }
+    @GetMapping("/create-text-questions")
+    public ModelAndView createTextQuestionnaire()
+    {
+        ModelAndView modelAndView = new ModelAndView("create-text-questions");
+        return modelAndView;
+    }
     /** This method is used to save questions the database
      * @param questionDTO : QuestionDTO - object containing question details
      * @return ModelAndView
@@ -327,7 +354,6 @@ public class UIController {
     {
         log.info("Question : {} ", questionDTO.getQuestionScore());
         questionDTO.setExamID(uiService.getExam(examName));
-        questionDTO.setQuestionType(QuestionType.MULTIPLE_CHOICE);
         String redirectTo =  uiService.saveQuestion(questionDTO);
         ModelAndView modelAndView = new ModelAndView(redirectTo);
         if(redirectTo.equals("error"))
@@ -414,6 +440,12 @@ public class UIController {
         questionsSize = questionDTOList.size();
         log.info("Size : {} ", questionsSize);
         modelAndView.addObject("exam", examDTO);
+        if(questionDTOList.size() == 0)
+        {
+            uiService.deleteExam(examDTO.getId());
+            ModelAndView examView = new ModelAndView("redirect:/ui/exams");
+            return examView;
+        }
         modelAndView.addObject("question", questionDTOList.get(questionNumber));
         questionNumber++;
         return modelAndView;
@@ -440,7 +472,21 @@ public class UIController {
 
         if(questionNumber == questionsSize)
         {
-            ModelAndView modelAndView = new ModelAndView("redirect:/ui/student-dashboard");
+            ModelAndView modelAndView = new ModelAndView("Score-Breakdown");
+            ExamDTO examDTO = uiService.getExamById(scoreDTO.getExamID());
+
+            List<ScoreDTO> scoreDTOList = uiService.getScoreOfStudent(scoreDTO.getStudentID());
+
+            List<ScoreDTO> scoreDTOS = scoreDTOList.stream()
+                    .filter(scoreDTO1 -> scoreDTO1.getExamID().equals(examDTO.getId()))
+                    .collect(Collectors.toList());
+
+            List<QuestionDTO> questionList = uiService.getQuestionList(examDTO.getId());
+
+            modelAndView.addObject("examName", uiService.getExamById(examDTO.getId()).getExamTitle());
+            modelAndView.addObject("questionList", questionList);
+            modelAndView.addObject("scoreList", scoreDTOS);
+
             score=0;
             questionNumber=0;
             questionsSize=0;
@@ -468,8 +514,10 @@ public class UIController {
                         .equals(sessionData
                                 .getUser()
                                 .getId()))
+                .filter(student -> uiService.getScoreOfStudent(student.getId()).size() > 0)
                 .collect(Collectors.toList());
         modelAndView.addObject("students", filteredStudents);
+        List<ScoreDTO> scores = uiService.getScoreOfStudent(uiService.getSessionData().getUser().getId());
         return modelAndView;
     }
 
@@ -493,6 +541,8 @@ public class UIController {
             examRecord.setQuestionsAndScores(uiService.getQuestionsAndScoreByExamID(examID, id));
             examRecords.add(examRecord);
         }
+        log.info(" questionAndAswers {}", examRecords.get(0).getQuestionsAndScores().get(0).getScore());
+
         modelAndView.addObject("exams", examRecords);
         return modelAndView;
     }

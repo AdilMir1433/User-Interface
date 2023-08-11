@@ -8,3 +8,6 @@ function openForm() {
 function closeForm() {
     document.getElementById("signOut").style.display = "none";
 }
+function viewRecords(){
+    document.getElementById("attemptForm").submit();
+}

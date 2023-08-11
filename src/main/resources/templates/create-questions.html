@@ -13,6 +13,7 @@
     <div class="border-class">
     <h2>Questionnaire</h2>
     <hr/>
+
         <form th:action="@{/ui/save-questions}" method="post" id="submitForms">
             <input type="hidden"  placeholder="Enter Question " name="question" id="q" class="form-control col-4 mb-4" required/>
             <input type="hidden"  placeholder="Enter Option 1 " name="option1"  id="op1" class="form-control col-4 mb-4" required/>
@@ -20,34 +21,57 @@
             <input type="hidden"  placeholder="Enter Option 3 " name="option3"  id="op3" class="form-control col-4 mb-4" required/>
             <input type="hidden"  placeholder="Enter Correct Answer " name="answer" id="a" class="form-control col-4 mb-4" required/>
             <input type="hidden"  placeholder="Enter Score for this question " name="questionScore" id="qs" class="form-control col-4 mb-4" required/>
+            <input type="hidden" name="questionType" value="MULTIPLE_CHOICE">
         </form>
     <form th:action="@{/ui/save-and-finish}" method="post">
-        <input type="text"  placeholder="Enter Question " name="question" id="ques" class="form-control col-4 mb-4" required/>
-        <input type="text"  placeholder="Enter Option 1 " name="option1" id="opsion1" class="form-control col-4 mb-4" required/>
-        <input type="text"  placeholder="Enter Option 2 " name="option2" id="opsion2" class="form-control col-4 mb-4" required/>
-        <input type="text"  placeholder="Enter Option 3 " name="option3" id="opsion3" class="form-control col-4 mb-4" required/>
-        <input type="text"  placeholder="Enter Correct Answer " name="answer" id="answer" class="form-control col-4 mb-4" required/>
-        <input type="number"  placeholder="Enter Score for this question " name="questionScore" id="questionScore" class="form-control col-4 mb-4" required/>
+        <input type="text"  placeholder="Enter Question " name="question" id="ques" class="form-control col-4 mb-4" required autocomplete="off"/>
+        <input type="text"  placeholder="Enter Option 1 " name="option1" id="opsion1" class="form-control col-4 mb-4" required autocomplete="off"/>
+        <input type="text"  placeholder="Enter Option 2 " name="option2" id="opsion2" class="form-control col-4 mb-4" required autocomplete="off"/>
+        <input type="text"  placeholder="Enter Option 3 " name="option3" id="opsion3" class="form-control col-4 mb-4" required autocomplete="off"/>
+        <input type="text"  placeholder="Enter Correct Answer " name="answer" id="answer" class="form-control col-4 mb-4" required autocomplete="off"/>
+        <input type="number"  placeholder="Enter Score for this question " name="questionScore" id="questionScore" class="form-control col-4 mb-4" required autocomplete="off"/>
         <div class="btns">
             <button class="btn btn-primary" type="submit" >Finish</button>
             <button class="btn btn-success" type="button" onclick="HandleForm()">Next Question</button>
+            <button class="btn btn-danger" type="button" onclick="showTextBasedQuestion()">Add Text Question</button>
         </div>
 
     </form>
-
+        <form th:action="@{/ui/create-text-questions}" method="get" id="text-form"></form>
     <hr/>
     </div>
 </div>
 <script>
     function HandleForm() {
         const form = document.getElementById("submitForms");
-        document.getElementById("q").value = document.getElementById("ques").value;
-        document.getElementById("op1").value = document.getElementById("opsion1").value;
-        document.getElementById("op2").value = document.getElementById("opsion2").value;
-        document.getElementById("op3").value = document.getElementById("opsion3").value;
-        document.getElementById("a").value = document.getElementById("answer").value;
-        document.getElementById("qs").value = document.getElementById("questionScore").value;
-        form.submit();
+        let q = document.getElementById("q");
+        q.value = document.getElementById("ques").value;
+
+        let op1 = document.getElementById("op1");
+        op1.value = document.getElementById("opsion1").value;
+
+        let op2 = document.getElementById("op2");
+        op2.value = document.getElementById("opsion2").value;
+
+        let op3 = document.getElementById("op3");
+        op3.value = document.getElementById("opsion3").value;
+
+        let a = document.getElementById("a");
+        a.value = document.getElementById("answer").value;
+
+        let qs = document.getElementById("qs");
+        qs.value = document.getElementById("questionScore").value;
+
+        if (q.value === "" || op1.value === "" || op2.value === "" || op3.value === "" || a.value === "" || qs.value === "") {
+            alert("Please fill all the fields");
+        }
+        else
+        {
+            form.submit();
+        }
+    }
+    function showTextBasedQuestion(){
+        document.getElementById("text-form").submit();
     }
 </script>
 </body>

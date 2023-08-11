@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="UTF-8">
+    <title>Score Breakdown</title>
+    <link rel="stylesheet" th:href="@{/ui/css/score-breakdown.css}">
+</head>
+    <body>
+        <div class="breakdown">
+            <div class="examTitle" th:text="${examName}"></div>
+            <div class="questions" th:each="question, index: ${questionList}">
+
+                <div class="questionDiv">
+                <span>Question : </span><span th:text="${index.index + 1}"></span>  <span th:text="${question.question}"></span>
+                </div>
+
+                <div class="row1">
+                    <span>
+                         <span class="dot"></span> <span th:text="${question.option1}">
+                    </span>
+                    <span>
+                        <span class="dot"></span></span>  <span th:text="${question.option2}"></span>
+                    </span>
+                </div>
+
+                <div class="row2">
+                    <span>
+                         <span class="dot"></span> <span th:text="${question.option3}"></span>
+                    </span>
+                    <span>
+                         <span class="dot"></span><span th:text="${question.answer}"></span>
+                    </span>
+                </div>
+
+                <div class="answer">
+                    <span>Correct Answer</span>: <span class="correct" th:text="${question.answer}"></span>
+                </div>
+
+                <div class="score">
+                    <span>Question Score</span>: <span th:text="${question.questionScore}"></span>
+                    <span>Obtained Score</span>: <span th:text="${scoreList.get(index.index).score}"></span>
+                </div>
+            </div>
+            <form th:action="@{/ui/student-dashboard}">
+                <input class="btn" type="submit" value="Back to Dashboard">
+            </form>
+        </div>
+    </body>
+</html>
