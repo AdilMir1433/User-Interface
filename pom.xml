@@ -69,6 +69,26 @@
                 <version>1.33.0</version>
             </dependency>
 
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-observation</artifactId>
+        </dependency>
+
+        <!-- OPTION 1: Open Telemetry as Bridge (RECOMMENDED) -->
+        <!-- Open Telemetry
+            - Simplified Observability (metrics, logs, and traces) -->
+
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-otel</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-exporter-zipkin</artifactId>
+        </dependency>
+
+
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -93,6 +113,13 @@
                 <groupId>com.example</groupId>
                 <artifactId>Users</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <!-- COMMON CHANGES + -->
+            <!-- Enables tracing of REST API calls made using Feign - V3 ONLY-->
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-micrometer</artifactId>
             </dependency>
 
         </dependencies>

@@ -1,6 +1,5 @@
 package com.example.ui.controllers;
 
-import com.cloudinary.Cloudinary;
 import com.common.ExamDTOs.*;
 import com.common.Image.ImageCompressor;
 import com.common.JWTDTOs.JWTRequest;
